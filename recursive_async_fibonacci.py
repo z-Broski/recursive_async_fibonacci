@@ -26,14 +26,17 @@ the solution incrementally e.g. as follows:
   4. Implement the 2 concurrent async calls to this function
 '''
 
-def enter_fibanacci_number():
+def enter_fibonacci_number():
     while True:
         user_input = input("Which Fibonacci number would you like to know (positive integer): ")
-        if is_positive_integer(user_input):
-            return int(user_input)
-
-def is_positive_integer(input_str):
-    return input_str.isdigit() and int(input_str) >= 0
+        try:
+            num = int(user_input)
+            if num >= 0:
+                return num
+            else:
+                print("Please enter a non-negative integer.")
+        except ValueError:
+            print("That's not a valid number. Please enter a positive integer.")
 
 
 def recursive_fibonacci(num):
@@ -53,7 +56,7 @@ async def sleep_and_recursive_fibonacci(num, call_number):
 
 
 async def main():
-    user_input = enter_fibanacci_number()
+    user_input = enter_fibonacci_number()
     result1, result2 = await asyncio.gather(sleep_and_recursive_fibonacci(user_input, 1), sleep_and_recursive_fibonacci(user_input, 2))
 
     # compare the times of finished executions of the functions
